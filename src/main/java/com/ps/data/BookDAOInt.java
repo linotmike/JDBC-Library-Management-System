@@ -1,4 +1,4 @@
 package com.ps.data;
 
-public class BookDAOInt {
+public interface BookDAOInt {
 }
