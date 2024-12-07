@@ -72,10 +72,7 @@ public class LibraryDAOImpl implements LibraryDAOInt {
                 Connection connection = this.dataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 ) {
-            preparedStatement.setInt(1,library.getLibrary_id());
-            preparedStatement.setString(2, library.getName());
-            preparedStatement.setString(3, library.getAddress());
-            preparedStatement.setString(4, library.getPhone());
+            setLibraryParameters(preparedStatement,library);
 
             int rowsCreated = preparedStatement.executeUpdate();
 
@@ -108,4 +105,12 @@ public class LibraryDAOImpl implements LibraryDAOInt {
 
         return new Library(library_id, name, address, phone);
     }
+
+    public void setLibraryParameters(PreparedStatement preparedStatement, Library library) throws SQLException{
+        preparedStatement.setInt(1,library.getLibrary_id());
+        preparedStatement.setString(2, library.getName());
+        preparedStatement.setString(3, library.getAddress());
+        preparedStatement.setString(4, library.getPhone());
+    }
+
 }
