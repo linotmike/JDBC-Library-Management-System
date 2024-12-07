@@ -93,11 +93,11 @@ public class LibraryDAOImpl implements LibraryDAOInt {
         try (
                 Connection connection = this.dataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ) {
+        ) {
             preparedStatement.setString(1, library.getName());
             preparedStatement.setString(2, library.getAddress());
             preparedStatement.setString(3, library.getPhone());
-            preparedStatement.setInt(4,library.getLibrary_id());
+            preparedStatement.setInt(4, library.getLibrary_id());
             int rowsUpdated = preparedStatement.executeUpdate();
 
             if (rowsUpdated > 0) {
@@ -114,6 +114,23 @@ public class LibraryDAOImpl implements LibraryDAOInt {
 
     @Override
     public void deleteLibrary(int library_id) {
+        String query = "DELETE FROM library WHERE library_id = ?";
+        try (
+                Connection connection = this.dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ) {
+            preparedStatement.setInt(1,library_id);
+            int rowsDeleted = preparedStatement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("Rows deleted " + rowsDeleted);
+            } else {
+                System.out.println("No rows deleted");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
