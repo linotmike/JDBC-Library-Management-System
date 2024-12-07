@@ -71,14 +71,14 @@ public class LibraryDAOImpl implements LibraryDAOInt {
         try (
                 Connection connection = this.dataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ) {
-            setLibraryParameters(preparedStatement,library);
+        ) {
+            setLibraryParameters(preparedStatement, library);
 
             int rowsCreated = preparedStatement.executeUpdate();
 
-            if(rowsCreated > 0){
+            if (rowsCreated > 0) {
                 System.out.println("Rows created " + rowsCreated);
-            }else{
+            } else {
                 System.out.println("No rows created");
             }
         } catch (SQLException e) {
@@ -89,6 +89,26 @@ public class LibraryDAOImpl implements LibraryDAOInt {
 
     @Override
     public void updateLibrary(Library library) {
+        String query = "UPDATE library SET name = ?, address = ?, phone = ? WHERE library_id = ?";
+        try (
+                Connection connection = this.dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ) {
+            preparedStatement.setString(1, library.getName());
+            preparedStatement.setString(2, library.getAddress());
+            preparedStatement.setString(3, library.getPhone());
+            preparedStatement.setInt(4,library.getLibrary_id());
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Rows updated " + rowsUpdated);
+            } else {
+                System.out.println("No rows updated");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -106,8 +126,8 @@ public class LibraryDAOImpl implements LibraryDAOInt {
         return new Library(library_id, name, address, phone);
     }
 
-    public void setLibraryParameters(PreparedStatement preparedStatement, Library library) throws SQLException{
-        preparedStatement.setInt(1,library.getLibrary_id());
+    public void setLibraryParameters(PreparedStatement preparedStatement, Library library) throws SQLException {
+        preparedStatement.setInt(1, library.getLibrary_id());
         preparedStatement.setString(2, library.getName());
         preparedStatement.setString(3, library.getAddress());
         preparedStatement.setString(4, library.getPhone());

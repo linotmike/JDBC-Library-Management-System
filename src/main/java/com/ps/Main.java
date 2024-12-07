@@ -28,8 +28,9 @@ public class Main {
 //        List<Library> getLibraryById = libraryDAOImpl.getLibraryById(1);
 //        System.out.println(getLibraryById);
 
-        Library library = new Library(5,"Gamo gofa city library","312 bole st","123456789");
-        libraryDAOImpl.addLibrary(library);
+        Library library = new Library(1,"Gamo gofa city library","312 bole st","123456789");
+////        libraryDAOImpl.addLibrary(library);
+        libraryDAOImpl.updateLibrary(library);
         System.out.println(library);
 
 
