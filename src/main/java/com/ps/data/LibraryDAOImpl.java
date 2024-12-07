@@ -49,12 +49,12 @@ public class LibraryDAOImpl implements LibraryDAOInt {
         try (
                 Connection connection = this.dataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ) {
-            preparedStatement.setInt(1,library_id);
+        ) {
+            preparedStatement.setInt(1, library_id);
             try (
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    ) {
-                if(resultSet.next()){
+            ) {
+                if (resultSet.next()) {
                     Library library = mapLibraries(resultSet);
                     libraries.add(library);
                 }
@@ -67,6 +67,26 @@ public class LibraryDAOImpl implements LibraryDAOInt {
 
     @Override
     public void addLibrary(Library library) {
+        String query = "INSERT INTO library (library_id,name,address,phone) VALUES (?,?,?,?)";
+        try (
+                Connection connection = this.dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ) {
+            preparedStatement.setInt(1,library.getLibrary_id());
+            preparedStatement.setString(2, library.getName());
+            preparedStatement.setString(3, library.getAddress());
+            preparedStatement.setString(4, library.getPhone());
+
+            int rowsCreated = preparedStatement.executeUpdate();
+
+            if(rowsCreated > 0){
+                System.out.println("Rows created " + rowsCreated);
+            }else{
+                System.out.println("No rows created");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

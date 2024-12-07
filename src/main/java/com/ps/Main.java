@@ -25,8 +25,12 @@ public class Main {
 
 //        List<Library> libraries = libraryDAOImpl.getAllLibraries();
 //        System.out.println(libraries);
-        List<Library> getLibraryById = libraryDAOImpl.getLibraryById(1);
-        System.out.println(getLibraryById);
+//        List<Library> getLibraryById = libraryDAOImpl.getLibraryById(1);
+//        System.out.println(getLibraryById);
+
+        Library library = new Library(4,"Addis ababa city library","123 bole st","123456789");
+        libraryDAOImpl.addLibrary(library);
+        System.out.println(library);
 
 
 
