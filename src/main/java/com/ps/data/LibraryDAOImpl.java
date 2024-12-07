@@ -12,7 +12,6 @@ import java.util.List;
 //import java.util.logging.Logger;
 
 
-
 public class LibraryDAOImpl implements LibraryDAOInt {
     private DataSource dataSource;
 //    private static final Logger logger = Logger.getLogger(LibraryDAOImpl.class.getName());
@@ -28,13 +27,13 @@ public class LibraryDAOImpl implements LibraryDAOInt {
         try (
                 Connection connection = this.dataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ) {
+        ) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-               Library library = mapLibraries(resultSet);
-               libraries.add(library);
+            while (resultSet.next()) {
+                Library library = mapLibraries(resultSet);
+                libraries.add(library);
             }
-            if(libraries.isEmpty()){
+            if (libraries.isEmpty()) {
                 System.out.println("No libraries found");
             }
         } catch (SQLException e) {
@@ -45,7 +44,25 @@ public class LibraryDAOImpl implements LibraryDAOInt {
 
     @Override
     public List<Library> getLibraryById(int library_id) {
-        return List.of();
+        List<Library> libraries = new ArrayList<>();
+        String query = "SELECT * FROM library WHERE library_id=?";
+        try (
+                Connection connection = this.dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ) {
+            preparedStatement.setInt(1,library_id);
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    ) {
+                if(resultSet.next()){
+                    Library library = mapLibraries(resultSet);
+                    libraries.add(library);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return libraries;
     }
 
     @Override
@@ -62,12 +79,13 @@ public class LibraryDAOImpl implements LibraryDAOInt {
     public void deleteLibrary(int library_id) {
 
     }
-    public Library mapLibraries (ResultSet resultSet) throws SQLException{
+
+    public Library mapLibraries(ResultSet resultSet) throws SQLException {
         int library_id = resultSet.getInt("library_id");
         String name = resultSet.getString("name");
         String address = resultSet.getString("address");
         String phone = resultSet.getString("phone");
 
-        return new Library(library_id,name,address,phone);
+        return new Library(library_id, name, address, phone);
     }
 }

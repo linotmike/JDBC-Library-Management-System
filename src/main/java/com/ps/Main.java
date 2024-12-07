@@ -23,8 +23,10 @@ public class Main {
 
         LibraryDAOImpl libraryDAOImpl = new LibraryDAOImpl(basicDataSource);
 
-        List<Library> libraries = libraryDAOImpl.getAllLibraries();
-        System.out.println(libraries);
+//        List<Library> libraries = libraryDAOImpl.getAllLibraries();
+//        System.out.println(libraries);
+        List<Library> getLibraryById = libraryDAOImpl.getLibraryById(1);
+        System.out.println(getLibraryById);
 
 
 
