@@ -31,12 +31,7 @@ public class LibraryDAOImpl implements LibraryDAOInt {
                 ) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-               int library_id = resultSet.getInt("library_id");
-               String name = resultSet.getString("name");
-               String address = resultSet.getString("address");
-               String phone = resultSet.getString("phone");
-
-               Library library = new Library(library_id,name,address,phone);
+               Library library = mapLibraries(resultSet);
                libraries.add(library);
             }
             if(libraries.isEmpty()){
@@ -66,5 +61,13 @@ public class LibraryDAOImpl implements LibraryDAOInt {
     @Override
     public void deleteLibrary(int library_id) {
 
+    }
+    public Library mapLibraries (ResultSet resultSet) throws SQLException{
+        int library_id = resultSet.getInt("library_id");
+        String name = resultSet.getString("name");
+        String address = resultSet.getString("address");
+        String phone = resultSet.getString("phone");
+
+        return new Library(library_id,name,address,phone);
     }
 }
