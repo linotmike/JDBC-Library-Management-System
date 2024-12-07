@@ -49,10 +49,10 @@ public class Library {
     @Override
     public String toString() {
         return "Library{" +
-                "library_id=" + library_id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
+                "\nlibrary_id=" + library_id +
+                ", \nname='" + name + '\'' +
+                ", \naddress='" + address + '\'' +
+                ", \nphone='" + phone + '\'' +
                 '}';
     }
 }
