@@ -13,9 +13,10 @@ import java.util.List;
 public class PatronDAOImpl implements PatronDAOInt {
     private final BasicDataSource basicDataSource;
 
-    public PatronDAOImpl(BasicDataSource basicDataSource){
+    public PatronDAOImpl(BasicDataSource basicDataSource) {
         this.basicDataSource = basicDataSource;
     }
+
     @Override
     public List<Patron> getAllPatrons() {
         List<Patron> patrons = new ArrayList<>();
@@ -23,9 +24,9 @@ public class PatronDAOImpl implements PatronDAOInt {
         try (
                 Connection connection = this.basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ) {
+        ) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Patron patron = mapPatrons(resultSet);
                 patrons.add(patron);
             }
@@ -37,7 +38,25 @@ public class PatronDAOImpl implements PatronDAOInt {
 
     @Override
     public List<Patron> getPatronsById(int patron_id) {
-        return List.of();
+        List<Patron> patrons = new ArrayList<>();
+        String query = "SELECT * FROM patron WHERE patron_id = ?";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)
+                ) {
+                    preparedStatement.setInt(1,patron_id);
+            try (
+            ResultSet resultSet = preparedStatement.executeQuery();
+                    ) {
+                if (resultSet.next()){
+                    Patron patron = mapPatrons(resultSet);
+                    patrons.add(patron);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting the patron with that id " + e.getMessage());
+        }
+        return patrons;
     }
 
     @Override
@@ -55,12 +74,12 @@ public class PatronDAOImpl implements PatronDAOInt {
 
     }
 
-    public Patron mapPatrons (ResultSet resultSet) throws SQLException {
-       int patron_id = resultSet.getInt("patron_id");
+    public Patron mapPatrons(ResultSet resultSet) throws SQLException {
+        int patron_id = resultSet.getInt("patron_id");
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         String phone = resultSet.getString("phone");
 
-        return new Patron(patron_id,name,email,phone);
+        return new Patron(patron_id, name, email, phone);
     }
 }

@@ -50,7 +50,8 @@ public class Main {
 //        System.out.println(books);
 
         PatronDAOImpl patronDAOImpl = new PatronDAOImpl(basicDataSource);
-        List<Patron>patrons = patronDAOImpl.getAllPatrons();
+//        List<Patron>patrons = patronDAOImpl.getAllPatrons();
+        List<Patron> patrons = patronDAOImpl.getPatronsById(1);
         System.out.println(patrons);
     }
 }
