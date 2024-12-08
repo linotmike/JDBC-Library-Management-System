@@ -2,8 +2,10 @@ package com.ps;
 
 import com.ps.data.BookDAOImpl;
 import com.ps.data.LibraryDAOImpl;
+import com.ps.data.PatronDAOImpl;
 import com.ps.models.Book;
 import com.ps.models.Library;
+import com.ps.models.Patron;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.util.List;
@@ -44,8 +46,11 @@ public class Main {
 //        Book books = new Book(5,"The book of ethiopia","Lino the goat","non-fiction",2001,31,1);
 //        bookDAOImpl.addBook(books);
 //        bookDAOImpl.updateBook(books);
-        bookDAOImpl.deleteBook(5);
+//        bookDAOImpl.deleteBook(5);
 //        System.out.println(books);
 
+        PatronDAOImpl patronDAOImpl = new PatronDAOImpl(basicDataSource);
+        List<Patron>patrons = patronDAOImpl.getAllPatrons();
+        System.out.println(patrons);
     }
 }
