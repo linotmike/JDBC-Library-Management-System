@@ -40,7 +40,9 @@ public class Main {
         BookDAOImpl bookDAOImpl = new BookDAOImpl(basicDataSource);
 //        List<Book>books = bookDAOImpl.getAllBook();
 //        bookDAOImpl.getAllBook();
-        List<Book> books = bookDAOImpl.getBookById(1);
+//        List<Book> books = bookDAOImpl.getBookById(1);
+        Book books = new Book(5,"Title is titeling","Lino the great","fictioning",2024,200,2);
+        bookDAOImpl.addBook(books);
         System.out.println(books);
 
     }

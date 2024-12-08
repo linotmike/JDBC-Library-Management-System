@@ -28,7 +28,7 @@ public class BookDAOImpl implements BookDAOInt {
         ) {
             ResultSet resultSet = preparedStatement.executeQuery(query);
             while (resultSet.next()) {
-              Book book = mapBooks(resultSet);
+                Book book = mapBooks(resultSet);
                 books.add(book);
             }
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class BookDAOImpl implements BookDAOInt {
             try (
                     ResultSet resultSet = preparedStatement.executeQuery();
             ) {
-                if(resultSet.next()){
+                if (resultSet.next()) {
                     Book book = mapBooks(resultSet);
                     books.add(book);
                 }
@@ -64,6 +64,28 @@ public class BookDAOImpl implements BookDAOInt {
 
     @Override
     public void addBook(Book book) {
+        String query = "INSERT INTO book (book_id,title,author,genre,published_year,available_copies,library_id) VALUES (?,?,?,?,?,?,?)";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ) {
+            preparedStatement.setInt(1,book.getBook_id());
+            preparedStatement.setString(2, book.getTitle());
+            preparedStatement.setString(3,book.getAuthor());
+            preparedStatement.setString(4,book.getGenre());
+            preparedStatement.setInt(5,book.getPublishedYear());
+            preparedStatement.setInt(6,book.getAvailableCopies());
+            preparedStatement.setInt(7,book.getLibrary_id());
+
+            int rowsAdded = preparedStatement.executeUpdate();
+            if(rowsAdded > 0){
+                System.out.println("Rows added" + rowsAdded);
+            }else{
+                System.out.println("No rows added");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding book to the database" + e.getMessage());
+        }
 
     }
 
@@ -76,7 +98,8 @@ public class BookDAOImpl implements BookDAOInt {
     public void deleteBook(Book book) {
 
     }
-    public Book mapBooks (ResultSet resultSet) throws SQLException{
+
+    public Book mapBooks(ResultSet resultSet) throws SQLException {
         int book_id = resultSet.getInt("book_id");
         String title = resultSet.getString("title");
         String author = resultSet.getString("author");
