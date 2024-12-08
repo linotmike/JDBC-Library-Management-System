@@ -9,5 +9,5 @@ public interface BookDAOInt {
     List<Book>getBookById(int book_id);
     void addBook(Book book);
     void updateBook(Book book);
-    void deleteBook(Book book);
+    void deleteBook(int book_id);
 }

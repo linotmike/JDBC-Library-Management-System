@@ -41,9 +41,11 @@ public class Main {
 //        List<Book>books = bookDAOImpl.getAllBook();
 //        bookDAOImpl.getAllBook();
 //        List<Book> books = bookDAOImpl.getBookById(1);
-        Book books = new Book(5,"Title is titeling","Lino the great","fictioning",2024,200,2);
-        bookDAOImpl.addBook(books);
-        System.out.println(books);
+//        Book books = new Book(5,"The book of ethiopia","Lino the goat","non-fiction",2001,31,1);
+//        bookDAOImpl.addBook(books);
+//        bookDAOImpl.updateBook(books);
+        bookDAOImpl.deleteBook(5);
+//        System.out.println(books);
 
     }
 }

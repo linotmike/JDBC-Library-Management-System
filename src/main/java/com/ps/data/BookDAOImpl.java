@@ -68,19 +68,19 @@ public class BookDAOImpl implements BookDAOInt {
         try (
                 Connection connection = this.basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ) {
-            preparedStatement.setInt(1,book.getBook_id());
+        ) {
+            preparedStatement.setInt(1, book.getBook_id());
             preparedStatement.setString(2, book.getTitle());
-            preparedStatement.setString(3,book.getAuthor());
-            preparedStatement.setString(4,book.getGenre());
-            preparedStatement.setInt(5,book.getPublishedYear());
-            preparedStatement.setInt(6,book.getAvailableCopies());
-            preparedStatement.setInt(7,book.getLibrary_id());
+            preparedStatement.setString(3, book.getAuthor());
+            preparedStatement.setString(4, book.getGenre());
+            preparedStatement.setInt(5, book.getPublishedYear());
+            preparedStatement.setInt(6, book.getAvailableCopies());
+            preparedStatement.setInt(7, book.getLibrary_id());
 
             int rowsAdded = preparedStatement.executeUpdate();
-            if(rowsAdded > 0){
+            if (rowsAdded > 0) {
                 System.out.println("Rows added" + rowsAdded);
-            }else{
+            } else {
                 System.out.println("No rows added");
             }
         } catch (SQLException e) {
@@ -91,12 +91,47 @@ public class BookDAOImpl implements BookDAOInt {
 
     @Override
     public void updateBook(Book book) {
+        String query = "UPDATE book SET title = ?, author = ?, genre = ?, published_year = ?, available_copies = ?, library_id = ? WHERE book_id = ? ";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getAuthor());
+            preparedStatement.setString(3, book.getGenre());
+            preparedStatement.setInt(4, book.getPublishedYear());
+            preparedStatement.setInt(5, book.getAvailableCopies());
+            preparedStatement.setInt(6, book.getLibrary_id());
+            preparedStatement.setInt(7, book.getBook_id());
 
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Rows Updated" + rowsUpdated);
+            } else {
+                System.out.println("No rows updated");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating book " + e.getMessage());
+        }
     }
 
     @Override
-    public void deleteBook(Book book) {
-
+    public void deleteBook(int book_id) {
+        String query = "DELETE FROM book WHERE book_id = ?";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ) {
+            preparedStatement.setInt(1,book_id);
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if(rowsDeleted > 0){
+                System.out.println("Rows deleted " + rowsDeleted);
+            }else{
+                System.out.println("No rows updated");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting book " + e.getMessage());
+        }
     }
 
     public Book mapBooks(ResultSet resultSet) throws SQLException {
