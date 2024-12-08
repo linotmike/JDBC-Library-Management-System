@@ -43,12 +43,12 @@ public class PatronDAOImpl implements PatronDAOInt {
         try (
                 Connection connection = this.basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)
-                ) {
-                    preparedStatement.setInt(1,patron_id);
+        ) {
+            preparedStatement.setInt(1, patron_id);
             try (
-            ResultSet resultSet = preparedStatement.executeQuery();
-                    ) {
-                if (resultSet.next()){
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                if (resultSet.next()) {
                     Patron patron = mapPatrons(resultSet);
                     patrons.add(patron);
                 }
@@ -61,6 +61,24 @@ public class PatronDAOImpl implements PatronDAOInt {
 
     @Override
     public void addPatron(Patron patron) {
+        String query = "INSERT INTO patron (patron_id,name,email,phone) VALUES(?,?,?,?)";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)
+                ) {
+            preparedStatement.setInt(1,patron.getPatron_id());
+            preparedStatement.setString(2, patron.getName());
+            preparedStatement.setString(3, patron.getEmail());
+            preparedStatement.setString(4,patron.getPhone());
+            int rowsAdded = preparedStatement.executeUpdate();
+            if(rowsAdded > 0){
+                System.out.println("Rows added " + rowsAdded);
+            }else {
+                System.out.println("No rows added");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding patron " + e.getMessage());
+        }
 
     }
 

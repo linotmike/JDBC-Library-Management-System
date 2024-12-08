@@ -51,7 +51,8 @@ public class Main {
 
         PatronDAOImpl patronDAOImpl = new PatronDAOImpl(basicDataSource);
 //        List<Patron>patrons = patronDAOImpl.getAllPatrons();
-        List<Patron> patrons = patronDAOImpl.getPatronsById(1);
+//        List<Patron> patrons = patronDAOImpl.getPatronsById(1);
+        Patron patrons = new Patron(5,"Lydia samuel","emial.email.com","1234567");
         System.out.println(patrons);
     }
 }
