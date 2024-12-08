@@ -1,6 +1,8 @@
 package com.ps;
 
+import com.ps.data.BookDAOImpl;
 import com.ps.data.LibraryDAOImpl;
+import com.ps.models.Book;
 import com.ps.models.Library;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -33,9 +35,12 @@ public class Main {
 //        libraryDAOImpl.updateLibrary(library);
 //        System.out.println(library);
 
-        libraryDAOImpl.deleteLibrary(5);
+//        libraryDAOImpl.deleteLibrary(5);
 
-
+        BookDAOImpl bookDAOImpl = new BookDAOImpl(basicDataSource);
+        List<Book>books = bookDAOImpl.getAllBook();
+//        bookDAOImpl.getAllBook();
+        System.out.println(books);
 
     }
 }

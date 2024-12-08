@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public class LibraryDAOImpl implements LibraryDAOInt {
-    private DataSource dataSource;
+    private final DataSource dataSource;
 //    private static final Logger logger = Logger.getLogger(LibraryDAOImpl.class.getName());
 
     public LibraryDAOImpl(DataSource dataSource) {
