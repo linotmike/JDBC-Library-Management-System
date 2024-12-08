@@ -38,8 +38,9 @@ public class Main {
 //        libraryDAOImpl.deleteLibrary(5);
 
         BookDAOImpl bookDAOImpl = new BookDAOImpl(basicDataSource);
-        List<Book>books = bookDAOImpl.getAllBook();
+//        List<Book>books = bookDAOImpl.getAllBook();
 //        bookDAOImpl.getAllBook();
+        List<Book> books = bookDAOImpl.getBookById(1);
         System.out.println(books);
 
     }

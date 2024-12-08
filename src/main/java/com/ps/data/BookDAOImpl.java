@@ -28,15 +28,7 @@ public class BookDAOImpl implements BookDAOInt {
         ) {
             ResultSet resultSet = preparedStatement.executeQuery(query);
             while (resultSet.next()) {
-                int book_id = resultSet.getInt("book_id");
-                String title = resultSet.getString("title");
-                String author = resultSet.getString("author");
-                String genre = resultSet.getString("genre");
-                int publishedYear = resultSet.getInt("published_year");
-                int availableCopies = resultSet.getInt("available_copies");
-                int library_id = resultSet.getInt("library_id");
-
-                Book book = new Book(book_id,title,author,genre,publishedYear,availableCopies,library_id);
+              Book book = mapBooks(resultSet);
                 books.add(book);
             }
         } catch (SQLException e) {
@@ -49,7 +41,25 @@ public class BookDAOImpl implements BookDAOInt {
 
     @Override
     public List<Book> getBookById(int book_id) {
-        return List.of();
+        List<Book> books = new ArrayList<>();
+        String query = "SELECT * FROM book WHERE book_id = ?";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setInt(1, book_id);
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                if(resultSet.next()){
+                    Book book = mapBooks(resultSet);
+                    books.add(book);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("No books found with that id" + e.getMessage());
+        }
+        return books;
     }
 
     @Override
@@ -64,6 +74,19 @@ public class BookDAOImpl implements BookDAOInt {
 
     @Override
     public void deleteBook(Book book) {
+
+    }
+    public Book mapBooks (ResultSet resultSet) throws SQLException{
+        int book_id = resultSet.getInt("book_id");
+        String title = resultSet.getString("title");
+        String author = resultSet.getString("author");
+        String genre = resultSet.getString("genre");
+        int publishedYear = resultSet.getInt("published_year");
+        int availableCopies = resultSet.getInt("available_copies");
+        int library_id = resultSet.getInt("library_id");
+
+        return new Book(book_id, title, author, genre, publishedYear, availableCopies, library_id);
+
 
     }
 }
