@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionDAOImpl implements TransactionDAOInt {
-private final BasicDataSource basicDataSource;
-public TransactionDAOImpl(BasicDataSource basicDataSource){
-    this.basicDataSource = basicDataSource;
-}
+    private final BasicDataSource basicDataSource;
+
+    public TransactionDAOImpl(BasicDataSource basicDataSource) {
+        this.basicDataSource = basicDataSource;
+    }
+
     @Override
     public void borrowBook(Transaction transaction) {
 
@@ -33,16 +35,16 @@ public TransactionDAOImpl(BasicDataSource basicDataSource){
                 Connection connection = this.basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-                ) {
+        ) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 int transaction_id = resultSet.getInt("transaction_id");
                 int book_id = resultSet.getInt("book_id");
                 int patron_id = resultSet.getInt("patron_id");
                 String borrowDate = resultSet.getString("borrow_Date");
                 String returnDate = resultSet.getString("return_date");
 
-                Transaction transaction = new Transaction(transaction_id,book_id,patron_id,borrowDate,returnDate);
+                Transaction transaction = new Transaction(transaction_id, book_id, patron_id, borrowDate, returnDate);
                 transactions.add(transaction);
 
 
@@ -56,7 +58,33 @@ public TransactionDAOImpl(BasicDataSource basicDataSource){
 
     @Override
     public List<Transaction> getTransactionByPatron(int patron_id) {
-        return List.of();
+        List<Transaction> transactions = new ArrayList<>();
+        String query = "SELECT * FROM transaction WHERE patron_id = ?";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        ) {
+            preparedStatement.setInt(1, patron_id);
+
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                if (resultSet.next()) {
+                    int transaction_id = resultSet.getInt("transaction_id");
+                    int book_id = resultSet.getInt("book_id");
+//                        int patron_id = resultSet.getInt("patron_id");
+                    String borrowDate = resultSet.getString("borrow_Date");
+                    String returnDate = resultSet.getString("return_date");
+
+                    Transaction transaction = new Transaction(transaction_id, book_id, patron_id, borrowDate, returnDate);
+                    transactions.add(transaction);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting transaction from the database " + e.getMessage());
+        }
+        return transactions;
     }
 
     @Override

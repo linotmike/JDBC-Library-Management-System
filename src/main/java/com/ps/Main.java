@@ -60,7 +60,8 @@ public class Main {
 //        patronDAOImpl.deletePatron(4);
 //        System.out.println(patrons);
         TransactionDAOImpl transactionDAOImpl = new TransactionDAOImpl(basicDataSource);
-        List<Transaction> transactions = transactionDAOImpl.getAllTransaction();
+//        List<Transaction> transactions = transactionDAOImpl.getAllTransaction();
+        List<Transaction> transactions = transactionDAOImpl.getTransactionByPatron(1);
         System.out.println(transactions);
 //        transactionDAOImpl.getAllTransaction();
     }
