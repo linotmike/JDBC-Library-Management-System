@@ -61,7 +61,8 @@ public class Main {
 //        System.out.println(patrons);
         TransactionDAOImpl transactionDAOImpl = new TransactionDAOImpl(basicDataSource);
 //        List<Transaction> transactions = transactionDAOImpl.getAllTransaction();
-        List<Transaction> transactions = transactionDAOImpl.getTransactionByPatron(1);
+//        List<Transaction> transactions = transactionDAOImpl.getTransactionByPatron(1);
+        List<Transaction> transactions = transactionDAOImpl.getTransactionByBookId(3);
         System.out.println(transactions);
 //        transactionDAOImpl.getAllTransaction();
     }

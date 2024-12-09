@@ -1,5 +1,6 @@
 package com.ps.data;
 
+import com.ps.models.Patron;
 import com.ps.models.Transaction;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -57,7 +58,7 @@ public class TransactionDAOImpl implements TransactionDAOInt {
     }
 
     @Override
-    public List<Transaction> getTransactionByPatron(int patron_id) {
+    public List<Transaction> getTransactionByPatronId(int patron_id) {
         List<Transaction> transactions = new ArrayList<>();
         String query = "SELECT * FROM transaction WHERE patron_id = ?";
         try (
@@ -88,8 +89,33 @@ public class TransactionDAOImpl implements TransactionDAOInt {
     }
 
     @Override
-    public List<Transaction> getTransactionByBook(int book_id) {
-        return List.of();
+    public List<Transaction> getTransactionByBookId(int book_id) {
+        List<Transaction> transactions = new ArrayList<>();
+        String query = "SELECT * FROM transaction WHERE book_id = ?";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+                ) {
+            preparedStatement.setInt(1,book_id);
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery()
+                    ) {
+                while(resultSet.next()){
+                    int transaction_id = resultSet.getInt("transaction_id");
+//                    int book_id = resultSet.getInt("book_id");
+                    int patron_id = resultSet.getInt("patron_id");
+                    String borrowDate = resultSet.getString("borrow_Date");
+                    String returnDate = resultSet.getString("return_date");
+
+                    Transaction transaction = new Transaction(transaction_id, book_id, patron_id, borrowDate, returnDate);
+                    transactions.add(transaction);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting transaction from database " + e.getMessage());
+        }
+        return transactions;
     }
 
     @Override
