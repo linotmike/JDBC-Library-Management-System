@@ -89,13 +89,13 @@ public class PatronDAOImpl implements PatronDAOInt {
                 Connection connection = this.basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)
 
-                ) {
-            preparedStatement.setString(1,patron.getName());
-            preparedStatement.setString(2,patron.getEmail());
-            preparedStatement.setString(3,patron.getPhone());
-            preparedStatement.setInt(4,patron.getPatron_id());
+        ) {
+            preparedStatement.setString(1, patron.getName());
+            preparedStatement.setString(2, patron.getEmail());
+            preparedStatement.setString(3, patron.getPhone());
+            preparedStatement.setInt(4, patron.getPatron_id());
             int rowsUpdated = preparedStatement.executeUpdate();
-            if(rowsUpdated > 0){
+            if (rowsUpdated > 0) {
                 System.out.println("Rows updated " + rowsUpdated);
             } else {
                 System.out.println("No rows updated");
@@ -106,8 +106,23 @@ public class PatronDAOImpl implements PatronDAOInt {
     }
 
     @Override
-    public void deletePatron(int patron) {
+    public void deletePatron(int patron_id) {
+        String query = "DELETE FROM patron WHERE patron_id = ?";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)
 
+                ) {
+            preparedStatement.setInt(1,patron_id);
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if(rowsDeleted > 0 ){
+                System.out.println("Rows deleted " + rowsDeleted);
+            }else{
+                System.out.println("No rows deleted");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting patron " + e.getMessage());
+        }
     }
 
     public Patron mapPatrons(ResultSet resultSet) throws SQLException {

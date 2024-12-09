@@ -50,10 +50,12 @@ public class Main {
 //        System.out.println(books);
 
         PatronDAOImpl patronDAOImpl = new PatronDAOImpl(basicDataSource);
-        List<Patron>patrons = patronDAOImpl.getAllPatrons();
+//        List<Patron>patrons = patronDAOImpl.getAllPatrons();
 //        List<Patron> patrons = patronDAOImpl.getPatronsById(1);
-//        Patron patrons = new Patron(3,"salsawit","emi.email.com","1234567");
+//        Patron patrons = new Patron(4,"salsawit ssmiel","emiailai.email.com","1234567");
+//        patronDAOImpl.addPatron(patrons);
 //        patronDAOImpl.updatePatron(patrons);
-        System.out.println(patrons);
+        patronDAOImpl.deletePatron(4);
+//        System.out.println(patrons);
     }
 }
