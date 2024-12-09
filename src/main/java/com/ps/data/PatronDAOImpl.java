@@ -65,15 +65,15 @@ public class PatronDAOImpl implements PatronDAOInt {
         try (
                 Connection connection = this.basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)
-                ) {
-            preparedStatement.setInt(1,patron.getPatron_id());
+        ) {
+            preparedStatement.setInt(1, patron.getPatron_id());
             preparedStatement.setString(2, patron.getName());
             preparedStatement.setString(3, patron.getEmail());
-            preparedStatement.setString(4,patron.getPhone());
+            preparedStatement.setString(4, patron.getPhone());
             int rowsAdded = preparedStatement.executeUpdate();
-            if(rowsAdded > 0){
+            if (rowsAdded > 0) {
                 System.out.println("Rows added " + rowsAdded);
-            }else {
+            } else {
                 System.out.println("No rows added");
             }
         } catch (SQLException e) {
@@ -84,7 +84,25 @@ public class PatronDAOImpl implements PatronDAOInt {
 
     @Override
     public void updatePatron(Patron patron) {
+        String query = "UPDATE patron SET name = ?, email = ? , phone = ? WHERE patron_id = ? ";
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)
 
+                ) {
+            preparedStatement.setString(1,patron.getName());
+            preparedStatement.setString(2,patron.getEmail());
+            preparedStatement.setString(3,patron.getPhone());
+            preparedStatement.setInt(4,patron.getPatron_id());
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if(rowsUpdated > 0){
+                System.out.println("Rows updated " + rowsUpdated);
+            } else {
+                System.out.println("No rows updated");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error could not update patron " + e.getMessage());
+        }
     }
 
     @Override
