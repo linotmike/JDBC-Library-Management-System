@@ -3,9 +3,11 @@ package com.ps;
 import com.ps.data.BookDAOImpl;
 import com.ps.data.LibraryDAOImpl;
 import com.ps.data.PatronDAOImpl;
+import com.ps.data.TransactionDAOImpl;
 import com.ps.models.Book;
 import com.ps.models.Library;
 import com.ps.models.Patron;
+import com.ps.models.Transaction;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.util.List;
@@ -55,7 +57,11 @@ public class Main {
 //        Patron patrons = new Patron(4,"salsawit ssmiel","emiailai.email.com","1234567");
 //        patronDAOImpl.addPatron(patrons);
 //        patronDAOImpl.updatePatron(patrons);
-        patronDAOImpl.deletePatron(4);
+//        patronDAOImpl.deletePatron(4);
 //        System.out.println(patrons);
+        TransactionDAOImpl transactionDAOImpl = new TransactionDAOImpl(basicDataSource);
+        List<Transaction> transactions = transactionDAOImpl.getAllTransaction();
+        System.out.println(transactions);
+//        transactionDAOImpl.getAllTransaction();
     }
 }

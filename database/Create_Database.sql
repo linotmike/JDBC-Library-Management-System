@@ -11,6 +11,7 @@ CREATE TABLE library (
 );
 
 
+
 CREATE TABLE book (
                       book_id INTEGER AUTO_INCREMENT PRIMARY KEY,
                       title VARCHAR(100) NOT NULL,
